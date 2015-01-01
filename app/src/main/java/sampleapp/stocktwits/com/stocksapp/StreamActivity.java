@@ -23,8 +23,8 @@ public class StreamActivity extends ActionBarActivity {
     private Boolean mMoreMessagesToLoad;
     private String mSinceMessageId;
     private String mMaxMessageId;
-    private Messages[] mRetreivedMentions;
-    private ArrayList<Messages> mRetreivedMentionsList= new ArrayList<Messages>();
+    private Messages[] mRetreivedMessages;
+    private ArrayList<Messages> mRetreivedMessagesList = new ArrayList<Messages>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +54,17 @@ public class StreamActivity extends ActionBarActivity {
         @Override
         public void success(GetSymbolResponse getSymbolResponse, Response response) {
 
-            mRetreivedMentions = getSymbolResponse.messages;
-            int maxLength = mRetreivedMentions.length;
+            mRetreivedMessages = getSymbolResponse.messages;
+            int maxLength = mRetreivedMessages.length;
 
             for(int i=0; i<maxLength; i++){
-                mRetreivedMentionsList.add(mRetreivedMentions[i]);
+                mRetreivedMessagesList.add(mRetreivedMessages[i]);
             }
 
             mStreamListView.setAdapter(
                     new StreamResultsAdapter(mActivity,
                             R.layout.stream_list_item,
-                            mRetreivedMentions));
+                            mRetreivedMessages));
 
             mMoreMessagesToLoad = getSymbolResponse.cursor.more;
             int length = getSymbolResponse.messages.length;
@@ -83,16 +83,16 @@ public class StreamActivity extends ActionBarActivity {
         @Override
         public void success(GetSymbolResponse getSymbolResponse, Response response) {
 
-            mRetreivedMentions = getSymbolResponse.messages;
-            if(mRetreivedMentions != null){
-                int maxLength = mRetreivedMentions.length;
+            mRetreivedMessages = getSymbolResponse.messages;
+            if(mRetreivedMessages != null){
+                int maxLength = mRetreivedMessages.length;
 
                 for(int i=0; i<maxLength; i++){
-                    mRetreivedMentionsList.add(mRetreivedMentions[i]);
+                    mRetreivedMessagesList.add(mRetreivedMessages[i]);
                 }
 
-                Messages[] newMentions = new Messages[mRetreivedMentionsList.size()];
-                newMentions = mRetreivedMentionsList.toArray(newMentions);
+                Messages[] newMentions = new Messages[mRetreivedMessagesList.size()];
+                newMentions = mRetreivedMessagesList.toArray(newMentions);
 
                 mStreamListView.setAdapter(
                         new StreamResultsAdapter(mActivity,
