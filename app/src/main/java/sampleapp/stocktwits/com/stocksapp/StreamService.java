@@ -9,13 +9,13 @@ import sampleapp.stocktwits.com.stocksapp.Data.GetSymbolResponse;
 public interface StreamService {
 
     @GET("/symbol/{symbol}.json")
-    public void getMentionsBySymbol(
+    public void getMessagesBySymbol(
             @Path("symbol") String symbol,
             Callback<GetSymbolResponse> callback
     );
 
     @GET("/symbol/{symbol}.json")
-    public void getMentionsBySymbolAndSinceValue(
+    public void getMessagesBySymbolAndSinceValue(
             @Path("symbol") String symbol,
             @Query("since") String maxId,
             Callback<GetSymbolResponse> callback

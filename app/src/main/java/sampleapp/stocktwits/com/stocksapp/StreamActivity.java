@@ -20,8 +20,8 @@ public class StreamActivity extends ActionBarActivity {
     private Activity mActivity;
     private String mTicker;
     private SwipeRefreshLayout mRefreshLayout;
-    private Boolean mMoreMentionsToLoad;
-    private String mSinceMentionId;
+    private Boolean mMoreMessagesToLoad;
+    private String mSinceMessageId;
     private Messages[] mRetreivedMentions;
     private ArrayList<Messages> mRetreivedMentionsList= new ArrayList<Messages>();
 
@@ -45,11 +45,11 @@ public class StreamActivity extends ActionBarActivity {
         if (mTicker != null) {
             StockTwitsClient
                     .getInstance()
-                    .getSymbolStream(mTicker, mGetInitialMentions);
+                    .getSymbolStream(mTicker, mGetInitialMessagesCallback);
         }
     }
 
-    protected Callback<GetSymbolResponse> mGetInitialMentions = new Callback<GetSymbolResponse>() {
+    protected Callback<GetSymbolResponse> mGetInitialMessagesCallback = new Callback<GetSymbolResponse>() {
         @Override
         public void success(GetSymbolResponse getSymbolResponse, Response response) {
 
@@ -65,9 +65,9 @@ public class StreamActivity extends ActionBarActivity {
                             R.layout.stream_list_item,
                             mRetreivedMentions));
 
-            mMoreMentionsToLoad = getSymbolResponse.cursor.more;
+            mMoreMessagesToLoad = getSymbolResponse.cursor.more;
             int length = getSymbolResponse.messages.length;
-            mSinceMentionId = getSymbolResponse.cursor.since;
+            mSinceMessageId = getSymbolResponse.cursor.since;
         }
 
         @Override
@@ -78,7 +78,7 @@ public class StreamActivity extends ActionBarActivity {
         }
     };
 
-    protected Callback<GetSymbolResponse> mGetMoreMentionsCallback = new Callback<GetSymbolResponse>() {
+    protected Callback<GetSymbolResponse> mGetMoreMessagesCallback = new Callback<GetSymbolResponse>() {
         @Override
         public void success(GetSymbolResponse getSymbolResponse, Response response) {
 
@@ -99,14 +99,14 @@ public class StreamActivity extends ActionBarActivity {
                                 newMentions));
 
 
-                mMoreMentionsToLoad = getSymbolResponse.cursor.more;
+                mMoreMessagesToLoad = getSymbolResponse.cursor.more;
                 int length = getSymbolResponse.messages.length;
-                mSinceMentionId = getSymbolResponse.cursor.since;
+                mSinceMessageId = getSymbolResponse.cursor.since;
 
                 int messageCount = getSymbolResponse.messages.length;
 
                 Toast toast = Toast.makeText(getApplicationContext(),
-                        "GET More Mentions: "+ String.valueOf(messageCount)+" new mentions.",
+                        String.valueOf(messageCount)+" new mentions",
                         Toast.LENGTH_LONG);
                 toast.show();
                 mRefreshLayout.setRefreshing(false);
@@ -125,6 +125,6 @@ public class StreamActivity extends ActionBarActivity {
     private void refreshStream() {
         StockTwitsClient
                 .getInstance()
-                .getSymbolStreamFromLastMention(mTicker, mSinceMentionId, mGetMoreMentionsCallback);
+                .getSymbolStreamFromLastMessage(mTicker, mSinceMessageId, mGetMoreMessagesCallback);
     }
 }

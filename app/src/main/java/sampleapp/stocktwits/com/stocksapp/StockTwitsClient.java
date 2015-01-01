@@ -22,10 +22,10 @@ public class StockTwitsClient {
     public static StockTwitsClient getInstance(){ return INSTANCE; }
 
     public void getSymbolStream(String symbol, Callback<GetSymbolResponse> callback){
-        mStreamService.getMentionsBySymbol(symbol, callback);
+        mStreamService.getMessagesBySymbol(symbol, callback);
     }
 
-    public void getSymbolStreamFromLastMention(String symbol, String maxId, Callback<GetSymbolResponse> callback){
-        mStreamService.getMentionsBySymbolAndSinceValue(symbol, maxId, callback);
+    public void getSymbolStreamFromLastMessage(String symbol, String maxId, Callback<GetSymbolResponse> callback){
+        mStreamService.getMessagesBySymbolAndSinceValue(symbol, maxId, callback);
     }
 }
