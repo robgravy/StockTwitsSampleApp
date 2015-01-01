@@ -17,9 +17,15 @@ public interface StreamService {
     @GET("/symbol/{symbol}.json")
     public void getMessagesBySymbolAndSinceValue(
             @Path("symbol") String symbol,
-            @Query("since") String maxId,
+            @Query("since") String sinceID,
+            Callback<GetSymbolResponse> callback
+    );
+
+    @GET("/symbol/{symbol}.json")
+    public void getMessagesBySymbolAndMaxValue(
+            @Path("symbol") String symbol,
+            @Query("max") String maxID,
             Callback<GetSymbolResponse> callback
     );
 }
-
 

@@ -22,6 +22,7 @@ public class StreamActivity extends ActionBarActivity {
     private SwipeRefreshLayout mRefreshLayout;
     private Boolean mMoreMessagesToLoad;
     private String mSinceMessageId;
+    private String mMaxMessageId;
     private Messages[] mRetreivedMentions;
     private ArrayList<Messages> mRetreivedMentionsList= new ArrayList<Messages>();
 
@@ -98,10 +99,10 @@ public class StreamActivity extends ActionBarActivity {
                                 R.layout.stream_list_item,
                                 newMentions));
 
-
                 mMoreMessagesToLoad = getSymbolResponse.cursor.more;
-                int length = getSymbolResponse.messages.length;
+                mMaxMessageId = getSymbolResponse.cursor.max;
                 mSinceMessageId = getSymbolResponse.cursor.since;
+                int length = getSymbolResponse.messages.length;
 
                 int messageCount = getSymbolResponse.messages.length;
 
@@ -125,6 +126,6 @@ public class StreamActivity extends ActionBarActivity {
     private void refreshStream() {
         StockTwitsClient
                 .getInstance()
-                .getSymbolStreamFromLastMessage(mTicker, mSinceMessageId, mGetMoreMessagesCallback);
+                .getLatestSymbolMessages(mTicker, mSinceMessageId, mGetMoreMessagesCallback);
     }
 }

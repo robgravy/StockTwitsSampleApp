@@ -25,7 +25,11 @@ public class StockTwitsClient {
         mStreamService.getMessagesBySymbol(symbol, callback);
     }
 
-    public void getSymbolStreamFromLastMessage(String symbol, String maxId, Callback<GetSymbolResponse> callback){
-        mStreamService.getMessagesBySymbolAndSinceValue(symbol, maxId, callback);
+    public void getLatestSymbolMessages(String symbol, String sinceID, Callback<GetSymbolResponse> callback){
+        mStreamService.getMessagesBySymbolAndSinceValue(symbol, sinceID, callback);
+    }
+
+    public void getOlderSymbolMessages(String symbol, String maxID, Callback<GetSymbolResponse> callback){
+        mStreamService.getMessagesBySymbolAndMaxValue(symbol, maxID, callback);
     }
 }
