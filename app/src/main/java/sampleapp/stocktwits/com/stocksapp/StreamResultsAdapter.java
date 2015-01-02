@@ -7,6 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 import sampleapp.stocktwits.com.stocksapp.Data.Messages;
 
 public class StreamResultsAdapter extends ArrayAdapter<Messages> {
@@ -35,8 +40,12 @@ public class StreamResultsAdapter extends ArrayAdapter<Messages> {
         TextView message = (TextView) row.findViewById(R.id.userMessage);
         message.setText(mSymbolMessages[position].body);
 
+        DateTime date = ISODateTimeFormat.dateTimeParser().parseDateTime(mSymbolMessages[position].created_at);
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d 'at' hh:mm:ss a");
+        String formattedDateTime = date.toString(fmt);
+
         TextView timestamp = (TextView) row.findViewById(R.id.timestamp);
-        timestamp.setText(mSymbolMessages[position].created_at);
+        timestamp.setText(formattedDateTime);
 
         return row;
     }
