@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -91,6 +92,8 @@ public class StreamActivity extends ActionBarActivity {
                     mRetreivedMessagesList.add(mRetreivedMessages[i]);
                 }
 
+                Collections.sort(mRetreivedMessagesList);
+
                 Messages[] newMentions = new Messages[mRetreivedMessagesList.size()];
                 newMentions = mRetreivedMessagesList.toArray(newMentions);
 
@@ -110,6 +113,7 @@ public class StreamActivity extends ActionBarActivity {
                         String.valueOf(messageCount)+" new mentions",
                         Toast.LENGTH_LONG);
                 toast.show();
+
                 mRefreshLayout.setRefreshing(false);
             }
             mRefreshLayout.setRefreshing(false);

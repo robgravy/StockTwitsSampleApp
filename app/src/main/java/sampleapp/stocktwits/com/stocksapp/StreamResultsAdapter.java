@@ -8,9 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
+import java.util.Locale;
+import java.util.TimeZone;
 
 import sampleapp.stocktwits.com.stocksapp.Data.Messages;
 
@@ -41,7 +45,10 @@ public class StreamResultsAdapter extends ArrayAdapter<Messages> {
         message.setText(mSymbolMessages[position].body);
 
         DateTime date = ISODateTimeFormat.dateTimeParser().parseDateTime(mSymbolMessages[position].created_at);
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d 'at' hh:mm:ss a");
+
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d 'at' hh:mm:ss a")
+                .withLocale(Locale.US)
+                .withZone(DateTimeZone.forTimeZone(TimeZone.getDefault()));
         String formattedDateTime = date.toString(fmt);
 
         TextView timestamp = (TextView) row.findViewById(R.id.timestamp);
